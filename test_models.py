@@ -1,8 +1,3 @@
-"""
-Модуль test_models.py - Unit-тесты для моделей данных.
-
-Этот модуль содержит тесты для классов Product, Customer и Order.
-"""
 
 import unittest
 from datetime import datetime
@@ -17,7 +12,6 @@ from models import Product, Customer, Order, sort_orders_by_date, sort_orders_by
 
 
 class TestProduct(unittest.TestCase):
-    """Тесты для класса Product."""
     
     def setUp(self):
         """Подготовка к тестам."""

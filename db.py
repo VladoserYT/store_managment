@@ -1,12 +1,3 @@
-"""
-Модуль db.py - Работа с базой данных SQLite и импорт/экспорт данных.
-
-Этот модуль предоставляет функции для:
-- Создания и инициализации БД
-- CRUD операций с товарами, клиентами и заказами
-- Импорта и экспорта данных в/из CSV и JSON форматов
-"""
-
 import sqlite3
 import json
 import csv
@@ -18,40 +9,18 @@ from models import Product, Customer, Order
 
 
 class DatabaseManager:
-    """
-    Менеджер для работы с SQLite базой данных.
-    
-    Демонстрирует инкапсуляцию и управление ресурсами.
-    """
     
     def __init__(self, db_path: str = "data/store.db"):
-        """
-        Инициализация менеджера БД.
-        
-        Parameters
-        ----------
-        db_path : str
-            Путь к файлу БД SQLite
-        """
         self.db_path = db_path
         Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
         self._init_database()
     
     def _get_connection(self) -> sqlite3.Connection:
-        """
-        Получить соединение с БД.
-        
-        Returns
-        -------
-        sqlite3.Connection
-            Соединение с БД
-        """
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         return conn
     
     def _init_database(self) -> None:
-        """Инициализировать таблицы БД при первом запуске."""
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -114,19 +83,6 @@ class DatabaseManager:
     # ============ ТОВАРЫ ============
     
     def add_product(self, product: Product) -> int:
-        """
-        Добавить товар в БД.
-        
-        Parameters
-        ----------
-        product : Product
-            Объект товара
-            
-        Returns
-        -------
-        int
-            ID добавленного товара
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -145,19 +101,6 @@ class DatabaseManager:
             conn.close()
     
     def get_product(self, product_id: int) -> Optional[Product]:
-        """
-        Получить товар по ID.
-        
-        Parameters
-        ----------
-        product_id : int
-            ID товара
-            
-        Returns
-        -------
-        Optional[Product]
-            Объект товара или None
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -178,14 +121,6 @@ class DatabaseManager:
             conn.close()
     
     def get_all_products(self) -> List[Product]:
-        """
-        Получить все товары.
-        
-        Returns
-        -------
-        List[Product]
-            Список всех товаров
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -207,21 +142,6 @@ class DatabaseManager:
             conn.close()
     
     def update_product_quantity(self, product_id: int, new_quantity: int) -> bool:
-        """
-        Обновить количество товара.
-        
-        Parameters
-        ----------
-        product_id : int
-            ID товара
-        new_quantity : int
-            Новое количество
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -239,19 +159,6 @@ class DatabaseManager:
             conn.close()
     
     def delete_product(self, product_id: int) -> bool:
-        """
-        Удалить товар.
-        
-        Parameters
-        ----------
-        product_id : int
-            ID товара
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -268,19 +175,6 @@ class DatabaseManager:
     # ============ КЛИЕНТЫ ============
     
     def add_customer(self, customer: Customer) -> int:
-        """
-        Добавить клиента в БД.
-        
-        Parameters
-        ----------
-        customer : Customer
-            Объект клиента
-            
-        Returns
-        -------
-        int
-            ID добавленного клиента
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -302,19 +196,6 @@ class DatabaseManager:
             conn.close()
     
     def get_customer(self, customer_id: int) -> Optional[Customer]:
-        """
-        Получить клиента по ID.
-        
-        Parameters
-        ----------
-        customer_id : int
-            ID клиента
-            
-        Returns
-        -------
-        Optional[Customer]
-            Объект клиента или None
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -337,14 +218,6 @@ class DatabaseManager:
             conn.close()
     
     def get_all_customers(self) -> List[Customer]:
-        """
-        Получить всех клиентов.
-        
-        Returns
-        -------
-        List[Customer]
-            Список всех клиентов
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -369,21 +242,6 @@ class DatabaseManager:
             conn.close()
     
     def update_customer_address(self, customer_id: int, new_address: str) -> bool:
-        """
-        Обновить адрес клиента.
-        
-        Parameters
-        ----------
-        customer_id : int
-            ID клиента
-        new_address : str
-            Новый адрес
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -401,19 +259,6 @@ class DatabaseManager:
             conn.close()
     
     def increment_customer_orders(self, customer_id: int) -> bool:
-        """
-        Увеличить счётчик заказов клиента.
-        
-        Parameters
-        ----------
-        customer_id : int
-            ID клиента
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -431,19 +276,6 @@ class DatabaseManager:
             conn.close()
     
     def delete_customer(self, customer_id: int) -> bool:
-        """
-        Удалить клиента.
-        
-        Parameters
-        ----------
-        customer_id : int
-            ID клиента
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -460,19 +292,6 @@ class DatabaseManager:
     # ============ ЗАКАЗЫ ============
     
     def add_order(self, order: Order) -> int:
-        """
-        Добавить заказ в БД.
-        
-        Parameters
-        ----------
-        order : Order
-            Объект заказа
-            
-        Returns
-        -------
-        int
-            ID добавленного заказа
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -503,19 +322,6 @@ class DatabaseManager:
             conn.close()
     
     def get_order(self, order_id: int) -> Optional[Order]:
-        """
-        Получить заказ по ID.
-        
-        Parameters
-        ----------
-        order_id : int
-            ID заказа
-            
-        Returns
-        -------
-        Optional[Order]
-            Объект заказа или None
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -555,14 +361,6 @@ class DatabaseManager:
             conn.close()
     
     def get_all_orders(self) -> List[Order]:
-        """
-        Получить все заказы.
-        
-        Returns
-        -------
-        List[Order]
-            Список всех заказов
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -575,19 +373,6 @@ class DatabaseManager:
             conn.close()
     
     def get_customer_orders(self, customer_id: int) -> List[Order]:
-        """
-        Получить все заказы клиента.
-        
-        Parameters
-        ----------
-        customer_id : int
-            ID клиента
-            
-        Returns
-        -------
-        List[Order]
-            Список заказов клиента
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -600,21 +385,6 @@ class DatabaseManager:
             conn.close()
     
     def update_order_status(self, order_id: int, new_status: str) -> bool:
-        """
-        Обновить статус заказа.
-        
-        Parameters
-        ----------
-        order_id : int
-            ID заказа
-        new_status : str
-            Новый статус
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -632,19 +402,6 @@ class DatabaseManager:
             conn.close()
     
     def delete_order(self, order_id: int) -> bool:
-        """
-        Удалить заказ.
-        
-        Parameters
-        ----------
-        order_id : int
-            ID заказа
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         conn = self._get_connection()
         cursor = conn.cursor()
         
@@ -662,19 +419,6 @@ class DatabaseManager:
     # ============ ИМПОРТ/ЭКСПОРТ ============
     
     def export_to_csv(self, export_dir: str = "data") -> Dict[str, str]:
-        """
-        Экспортировать данные в CSV файлы.
-        
-        Parameters
-        ----------
-        export_dir : str
-            Директория для экспорта
-            
-        Returns
-        -------
-        Dict[str, str]
-            Словарь с путями к экспортированным файлам
-        """
         Path(export_dir).mkdir(parents=True, exist_ok=True)
         files = {}
         
@@ -722,19 +466,6 @@ class DatabaseManager:
             return {}
     
     def export_to_json(self, export_dir: str = "data") -> Dict[str, str]:
-        """
-        Экспортировать данные в JSON файлы.
-        
-        Parameters
-        ----------
-        export_dir : str
-            Директория для экспорта
-            
-        Returns
-        -------
-        Dict[str, str]
-            Словарь с путями к экспортированным файлам
-        """
         Path(export_dir).mkdir(parents=True, exist_ok=True)
         files = {}
         
@@ -796,19 +527,6 @@ class DatabaseManager:
             return {}
     
     def import_from_csv(self, csv_dir: str = "data") -> bool:
-        """
-        Импортировать данные из CSV файлов.
-        
-        Parameters
-        ----------
-        csv_dir : str
-            Директория с CSV файлами
-            
-        Returns
-        -------
-        bool
-            True если успешно, False иначе
-        """
         try:
             # Импорт товаров
             products_file = Path(csv_dir) / "products.csv"

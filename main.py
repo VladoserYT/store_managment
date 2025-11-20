@@ -1,8 +1,3 @@
-"""
-Модуль main.py - Точка входа в приложение.
-
-Этот модуль запускает главное окно приложения и инициализирует все компоненты.
-"""
 
 import sys
 import tkinter as tk
@@ -15,11 +10,6 @@ from gui import OnlineStoreApp
 
 
 def main():
-    """
-    Главная функция приложения.
-    
-    Создаёт главное окно Tkinter и запускает приложение.
-    """
     try:
         root = tk.Tk()
         app = OnlineStoreApp(root)

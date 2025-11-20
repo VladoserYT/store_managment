@@ -1,8 +1,3 @@
-"""
-Модуль test_analysis.py - Unit-тесты для анализа данных.
-
-Этот модуль содержит тесты для функций анализа и визуализации.
-"""
 
 import unittest
 import tempfile
@@ -19,7 +14,6 @@ from analysis import DataAnalyzer
 
 
 class TestDataAnalyzer(unittest.TestCase):
-    """Тесты для класса DataAnalyzer."""
     
     def setUp(self):
         """Подготовка к тестам."""

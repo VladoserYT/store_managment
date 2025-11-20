@@ -1,11 +1,3 @@
-"""
-Модуль analysis.py - Анализ и визуализация данных.
-
-Этот модуль предоставляет функции для:
-- Анализа данных с использованием pandas
-- Визуализации данных с использованием matplotlib и seaborn
-- Построения графиков продаж, топовых товаров и клиентов
-"""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,21 +11,8 @@ from db import DatabaseManager
 
 
 class DataAnalyzer:
-    """
-    Анализатор данных для интернет-магазина.
-    
-    Демонстрирует работу с pandas для анализа и matplotlib для визуализации.
-    """
     
     def __init__(self, db_manager: DatabaseManager):
-        """
-        Инициализация анализатора.
-        
-        Parameters
-        ----------
-        db_manager : DatabaseManager
-            Менеджер базы данных
-        """
         self.db = db_manager
         self.output_dir = Path("data/charts")
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -44,14 +23,6 @@ class DataAnalyzer:
         plt.rcParams['font.size'] = 10
     
     def get_sales_by_date(self) -> pd.DataFrame:
-        """
-        Получить данные о продажах по датам.
-        
-        Returns
-        -------
-        pd.DataFrame
-            DataFrame с датами и количеством заказов
-        """
         orders = self.db.get_all_orders()
         
         if not orders:
@@ -70,19 +41,6 @@ class DataAnalyzer:
         return df
     
     def get_top_customers(self, n: int = 5) -> pd.DataFrame:
-        """
-        Получить топ клиентов по количеству заказов.
-        
-        Parameters
-        ----------
-        n : int
-            Количество топовых клиентов
-            
-        Returns
-        -------
-        pd.DataFrame
-            DataFrame с топовыми клиентами
-        """
         customers = self.db.get_all_customers()
         
         if not customers:
@@ -100,19 +58,6 @@ class DataAnalyzer:
         return df
     
     def get_top_products(self, n: int = 5) -> pd.DataFrame:
-        """
-        Получить топ товаров по количеству продаж.
-        
-        Parameters
-        ----------
-        n : int
-            Количество топовых товаров
-            
-        Returns
-        -------
-        pd.DataFrame
-            DataFrame с топовыми товарами
-        """
         orders = self.db.get_all_orders()
         
         if not orders:
@@ -142,14 +87,6 @@ class DataAnalyzer:
         return df
     
     def get_order_status_distribution(self) -> pd.DataFrame:
-        """
-        Получить распределение заказов по статусам.
-        
-        Returns
-        -------
-        pd.DataFrame
-            DataFrame с распределением статусов
-        """
         orders = self.db.get_all_orders()
         
         if not orders:
@@ -170,14 +107,6 @@ class DataAnalyzer:
         return df
     
     def plot_sales_dynamics(self) -> str:
-        """
-        Построить график динамики продаж по датам.
-        
-        Returns
-        -------
-        str
-            Путь к сохранённому графику
-        """
         df = self.get_sales_by_date()
         
         if df.empty:
@@ -213,19 +142,6 @@ class DataAnalyzer:
         return str(output_file)
     
     def plot_top_customers(self, n: int = 5) -> str:
-        """
-        Построить график топовых клиентов.
-        
-        Parameters
-        ----------
-        n : int
-            Количество топовых клиентов
-            
-        Returns
-        -------
-        str
-            Путь к сохранённому графику
-        """
         df = self.get_top_customers(n)
         
         if df.empty:
@@ -256,19 +172,6 @@ class DataAnalyzer:
         return str(output_file)
     
     def plot_top_products(self, n: int = 5) -> str:
-        """
-        Построить график топовых товаров.
-        
-        Parameters
-        ----------
-        n : int
-            Количество топовых товаров
-            
-        Returns
-        -------
-        str
-            Путь к сохранённому графику
-        """
         df = self.get_top_products(n)
         
         if df.empty:
@@ -311,14 +214,6 @@ class DataAnalyzer:
         return str(output_file)
     
     def plot_order_status_distribution(self) -> str:
-        """
-        Построить график распределения заказов по статусам.
-        
-        Returns
-        -------
-        str
-            Путь к сохранённому графику
-        """
         df = self.get_order_status_distribution()
         
         if df.empty:
@@ -359,14 +254,6 @@ class DataAnalyzer:
         return str(output_file)
     
     def get_summary_statistics(self) -> Dict[str, any]:
-        """
-        Получить сводную статистику.
-        
-        Returns
-        -------
-        Dict[str, any]
-            Словарь со статистикой
-        """
         products = self.db.get_all_products()
         customers = self.db.get_all_customers()
         orders = self.db.get_all_orders()
